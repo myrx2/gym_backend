@@ -1,9 +1,8 @@
-const express = require('express');
-const connectDB = require('../database/config');
-const userRouter = require('../routes/user.router');
-const authRouter = require('../routes/auth.router');
-require('dotenv').config();
-
+const express = require("express");
+const connectDB = require("../database/config");
+const userRouter = require("../routes/user.router");
+const authRouter = require("../routes/auth.router");
+require("dotenv").config();
 const app = express();
 
 // Conectar a la base de datos
@@ -13,12 +12,12 @@ connectDB();
 app.use(express.json());
 
 // Rutas
-app.use('/api/users', userRouter);
-app.use('/api/auth', authRouter); // Ruta para autenticación
+app.use("/api/users", userRouter); // Ruta crud
+app.use("/api/auth", authRouter); // Ruta para las operaciones de autenticación (login)
 
 // Ruta principal
-app.get('/', (req, res) => {
-  res.send('Bienvenido al API del gimnasio');
+app.get("/", (req, res) => {
+  res.send("Bienvenido al API del gimnasio"); // Mensaje de bienvenida cuando se accede a la ruta principal
 });
 
 // Puerto y servidor

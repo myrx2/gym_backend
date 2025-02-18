@@ -1,21 +1,25 @@
-const { validationResult } = require('express-validator');
+const { validationResult } = require("express-validator");
 
 const validatorMiddleware = (req, res, next) => {
-    const errors = validationResult(req);
+  // Obtener los resultados de la validación en la solicitud
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        // Crear un objeto para almacenar solo el primer error por campo
-        const filteredErrors = {};
-        errors.array().forEach(err => {
-            if (!filteredErrors[err.path]) {
-                filteredErrors[err.path] = err.msg;
-            }
-        });
+  // Si hay errores de validación, procesarlos
+  if (!errors.isEmpty()) {
+    // Crear un objeto para almacenar solo el primer error por campo
+    const filteredErrors = {};
 
-        return res.status(400).json({ errors: filteredErrors });
-    }
+    // Iterar sobre el array de errores y almacenar el primer error por campo
+    errors.array().forEach((err) => {
+      if (!filteredErrors[err.path]) {
+        filteredErrors[err.path] = err.msg;
+      }
+    });
 
-    next();
+    return res.status(400).json({ errors: filteredErrors });
+  }
+
+  next();
 };
 
 module.exports = validatorMiddleware;
